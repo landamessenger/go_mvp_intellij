@@ -1,0 +1,39 @@
+<!-- Plugin Configuration File. Read more: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
+<idea-plugin>
+    <!-- Unique identifier of the plugin. It should be FQN. It cannot be changed between the plugin versions. -->
+    <id>com.landamessenger.go_mvp.go_mvp_intellij</id>
+
+    <!-- Public plugin name should be written in Title Case.
+         Guidelines: https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-name -->
+    <name>go_mvp (For Flutter)</name>
+
+    <!-- A displayed Vendor name or Organization ID displayed on the Plugins Page. -->
+    <vendor email="support@landamessenger.com" url="https://www.landamessenger.com">Landa Messenger</vendor>
+
+    <!-- Description of the plugin displayed on the Plugin Page and IDE Plugin Manager.
+         Simple HTML elements (text formatting, paragraphs, and lists) can be added inside of <![CDATA[ ]]> tag.
+         Guidelines: https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-description -->
+    <description><![CDATA[
+    Create MVP screen quickly.<br>
+    <em>Works with go_mvp for Flutter</em>
+  ]]></description>
+
+    <!-- Product and plugin compatibility requirements.
+         Read more: https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html -->
+    <depends>com.intellij.modules.platform</depends>
+    <depends>org.jetbrains.plugins.terminal</depends>
+
+    <!-- Extension points defined by the plugin.
+         Read more: https://plugins.jetbrains.com/docs/intellij/plugin-extension-points.html -->
+    <extensions defaultExtensionNs="com.intellij">
+
+    </extensions>
+    <actions>
+        <action id="com.landamessenger.go_mvp.go_mvp_intellij.GoMvpPlugin"
+                class="com.landamessenger.go_mvp.go_mvp_intellij.GoMvpPlugin" text="New MVP screen"
+                description="Creates a new MVP screen in the given directory">
+            <add-to-group group-id="NewGroup" anchor="after" relative-to-action="NewFile"/>
+            <keyboard-shortcut keymap="$default" first-keystroke="G" second-keystroke="M"/>
+        </action>
+    </actions>
+</idea-plugin>
