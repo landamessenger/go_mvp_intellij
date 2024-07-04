@@ -30,10 +30,11 @@
     </extensions>
     <actions>
         <action id="com.landamessenger.go_mvp.go_mvp_intellij.GoMvpPlugin"
-                class="com.landamessenger.go_mvp.go_mvp_intellij.GoMvpPlugin" text="New MVP screen"
-                description="Creates a new MVP screen in the given directory">
-            <add-to-group group-id="NewGroup" anchor="after" relative-to-action="NewFile"/>
-            <keyboard-shortcut keymap="$default" first-keystroke="G" second-keystroke="M"/>
+                class="com.landamessenger.go_mvp.go_mvp_intellij.GoMvpPlugin"
+                text="MVP screen"
+                description="Creates a new MVP screen in the given directory"
+                icon="com.intellij.icons.ExpUiIcons.Actions.Generated">
+            <add-to-group group-id="NewGroup" anchor="after" relative-to-action="NewDir"/>
         </action>
     </actions>
 </idea-plugin>
