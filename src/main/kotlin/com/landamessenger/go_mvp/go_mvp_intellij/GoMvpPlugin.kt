@@ -1,43 +1,48 @@
 package com.landamessenger.go_mvp.go_mvp_intellij
 
-import com.intellij.openapi.actionSystem.AnAction
-import com.intellij.openapi.actionSystem.AnActionEvent
-import com.intellij.openapi.actionSystem.CommonDataKeys
-import com.intellij.openapi.project.Project
-import com.intellij.openapi.ui.Messages
-import com.intellij.openapi.vfs.VirtualFile
+import com.intellij.ide.BrowserUtil
+import com.landamessenger.go_mvp.go_mvp_intellij.components.executor.ExecutorImpl
+import com.landamessenger.go_mvp.go_mvp_intellij.components.files.FilesManagerImpl
 import com.landamessenger.go_mvp.go_mvp_intellij.components.id
-import com.landamessenger.go_mvp.go_mvp_intellij.extensions.*
+import com.landamessenger.go_mvp.go_mvp_intellij.components.installationUrl
+import com.landamessenger.go_mvp.go_mvp_intellij.components.plugin.Plugin
+import com.landamessenger.go_mvp.go_mvp_intellij.components.pubSpecFile
+import com.landamessenger.go_mvp.go_mvp_intellij.extensions.dependencyInstalled
+import com.landamessenger.go_mvp.go_mvp_intellij.extensions.input
+import com.landamessenger.go_mvp.go_mvp_intellij.extensions.pathForWorking
 
 
-class GoMvpPlugin : AnAction() {
+class GoMvpPlugin : Plugin() {
+    override val executor = ExecutorImpl()
+    override val filesManager = FilesManagerImpl()
 
-    override fun actionPerformed(event: AnActionEvent) {
-        kotlin.runCatching {
-            val file: VirtualFile = event.file() ?: return@runCatching
-            val project: Project = event.project() ?: return@runCatching
-            val input = project.input() ?: return@runCatching
+    override fun main() {
+        val input = project.input() ?: return
 
-            val ttyConnector = project.createWindow()
+        /**
+         * If go_mvp not installed, alert and open documentation
+         */
+        val projectFileContent = filesManager.readFile(pubSpecFile)
+        if (!projectFileContent.dependencyInstalled()) {
+            errorMessage("$id not installed on project.")
+            BrowserUtil.open(installationUrl)
+            return
+        }
 
-            val commands = listOf(
+        val pubSpec = filesManager.parseYaml(pubSpecFile)
+        if (pubSpec == null) {
+            errorMessage("Error parsing $pubSpecFile")
+            return
+        }
+
+        val actingPath = pubSpec.pathForWorking()
+
+        executor.execute(
+            listOf(
                 "source ~/.zshrc",
                 "cd ${project.basePath}",
                 "dart run $id:create_screen $input"
             )
-
-            ttyConnector.execute(commands)
-        }.onFailure { e ->
-            Messages.showMessageDialog(
-                "An Exception happened: ${e.message}",
-                id,
-                Messages.getErrorIcon()
-            )
-        }
-    }
-
-    override fun update(event: AnActionEvent) {
-        val file = event.getData(CommonDataKeys.VIRTUAL_FILE)
-        event.presentation.isEnabledAndVisible = file != null && file.isDirectory
+        )
     }
 }
