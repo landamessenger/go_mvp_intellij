@@ -6,13 +6,14 @@ import com.landamessenger.go_mvp.go_mvp_intellij.components.*
 import com.landamessenger.go_mvp.go_mvp_intellij.components.executor.ExecutorImpl
 import com.landamessenger.go_mvp.go_mvp_intellij.components.files.FilesManagerImpl
 import com.landamessenger.go_mvp.go_mvp_intellij.components.plugin.Plugin
+import com.landamessenger.go_mvp.go_mvp_intellij.components.requester.PubDevPackageInfoRequester
 import com.landamessenger.go_mvp.go_mvp_intellij.extensions.*
 
 class GoMvpPlugin : Plugin() {
     override val executor = ExecutorImpl()
     override val filesManager = FilesManagerImpl()
 
-    override fun main() {
+    override suspend fun ui() {
         /**
          * If go_mvp not installed, alert and offer opening the documentation
          */
@@ -47,6 +48,13 @@ class GoMvpPlugin : Plugin() {
                 BrowserUtil.open(installationUrl)
             }
             return
+        }
+
+        PubDevPackageInfoRequester("go_mvp")()?.let { dependency ->
+            infoMessage(
+                title = "$id - Latest version",
+                message = "Last version found: ${dependency.latestVersion}",
+            )
         }
 
         val actingPath = pubSpec?.pathForWorking() ?: return

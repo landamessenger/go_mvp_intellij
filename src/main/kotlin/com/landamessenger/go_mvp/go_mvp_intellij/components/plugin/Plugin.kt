@@ -7,12 +7,14 @@ import com.intellij.openapi.project.Project
 import com.intellij.openapi.ui.MessageDialogBuilder
 import com.intellij.openapi.ui.Messages
 import com.intellij.openapi.vfs.VirtualFile
+import com.landamessenger.go_mvp.go_mvp_intellij.components.coroutines.CoroutineUtil
 import com.landamessenger.go_mvp.go_mvp_intellij.components.executor.Executor
 import com.landamessenger.go_mvp.go_mvp_intellij.components.files.FilesManager
 import com.landamessenger.go_mvp.go_mvp_intellij.components.id
 import com.landamessenger.go_mvp.go_mvp_intellij.extensions.createWindow
 import com.landamessenger.go_mvp.go_mvp_intellij.extensions.file
 import com.landamessenger.go_mvp.go_mvp_intellij.extensions.project
+import kotlinx.coroutines.launch
 import javax.swing.Icon
 
 abstract class Plugin : AnAction() {
@@ -25,15 +27,17 @@ abstract class Plugin : AnAction() {
 
     override fun actionPerformed(event: AnActionEvent) {
         kotlin.runCatching {
-            file = event.file() ?: return@runCatching
-            project = event.project() ?: return@runCatching
+            CoroutineUtil.uiScope.launch {
+                file = event.file() ?: return@launch
+                project = event.project() ?: return@launch
 
-            val ttyConnector = project.createWindow()
+                val ttyConnector = project.createWindow()
 
-            filesManager.setup(project)
-            executor.setup(ttyConnector)
+                filesManager.setup(project)
+                executor.setup(ttyConnector)
 
-            main()
+                ui()
+            }
         }.onFailure { e ->
             errorMessage(message = "An Exception happened: ${e.message}")
         }
@@ -44,7 +48,7 @@ abstract class Plugin : AnAction() {
         event.presentation.isEnabledAndVisible = file != null && file.isDirectory
     }
 
-    abstract fun main()
+    abstract suspend fun ui()
 
     fun errorMessage(title: String = id, message: String) = Messages.showMessageDialog(
         message,
