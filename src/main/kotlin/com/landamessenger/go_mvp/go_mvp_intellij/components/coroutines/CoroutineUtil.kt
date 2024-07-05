@@ -1,7 +1,11 @@
 package com.landamessenger.go_mvp.go_mvp_intellij.components.coroutines
 
 import com.intellij.util.concurrency.EdtExecutorService
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.asCoroutineDispatcher
 
 object CoroutineUtil {
     private val handler = CoroutineExceptionHandler { _, throwable ->

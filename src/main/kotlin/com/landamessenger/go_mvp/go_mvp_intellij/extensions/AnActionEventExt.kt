@@ -6,14 +6,14 @@ import com.intellij.openapi.actionSystem.PlatformDataKeys
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.ui.Messages
 import com.intellij.openapi.vfs.VirtualFile
-import com.landamessenger.go_mvp.go_mvp_intellij.components.id
+import com.landamessenger.go_mvp.go_mvp_intellij.components.ID
 
 fun AnActionEvent.file(): VirtualFile? {
     val file: VirtualFile? = getData(CommonDataKeys.VIRTUAL_FILE)
     if (file == null || !file.isDirectory) {
         Messages.showMessageDialog(
             "You must select a directory",
-            id,
+            ID,
             Messages.getInformationIcon()
         )
     }
@@ -25,7 +25,7 @@ fun AnActionEvent.project(): Project? {
     if (project == null) {
         Messages.showMessageDialog(
             "No project found",
-            id,
+            ID,
             Messages.getErrorIcon()
         )
     }

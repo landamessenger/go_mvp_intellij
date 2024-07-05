@@ -1,11 +1,14 @@
 package com.landamessenger.go_mvp.go_mvp_intellij.components.executor
 
+import com.intellij.openapi.project.Project
 import com.jediterm.terminal.TtyConnector
 import com.landamessenger.go_mvp.go_mvp_intellij.extensions.execute
 
-class ExecutorImpl : Executor {
+object ExecutorImpl : Executor {
+    override lateinit var project: Project
     override lateinit var connector: TtyConnector
-    override fun setup(connector: TtyConnector) {
+    override fun setup(project: Project, connector: TtyConnector) {
+        this.project = project
         this.connector = connector
     }
 

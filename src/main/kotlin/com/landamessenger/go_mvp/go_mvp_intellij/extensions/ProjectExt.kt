@@ -1,6 +1,5 @@
 package com.landamessenger.go_mvp.go_mvp_intellij.extensions
 
-import com.intellij.icons.AllIcons
 import com.intellij.icons.ExpUiIcons
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.ui.Messages
@@ -11,7 +10,9 @@ import com.intellij.terminal.pty.PtyProcessTtyConnector
 import com.intellij.ui.content.Content
 import com.intellij.ui.content.ContentFactory
 import com.jediterm.terminal.TtyConnector
-import com.landamessenger.go_mvp.go_mvp_intellij.components.id
+import com.landamessenger.go_mvp.go_mvp_intellij.components.ID
+import com.landamessenger.go_mvp.go_mvp_intellij.components.WINDOW_COLUMNS
+import com.landamessenger.go_mvp.go_mvp_intellij.components.WINDOW_LINES
 import com.pty4j.PtyProcessBuilder
 import org.jetbrains.plugins.terminal.JBTerminalSystemSettingsProvider
 import java.nio.charset.StandardCharsets
@@ -20,8 +21,8 @@ fun Project.createWindow(): TtyConnector {
     val settingsProvider = JBTerminalSystemSettingsProvider()
     val terminalWidget = JBTerminalWidget(
         this,
-        80,
-        24,
+        WINDOW_COLUMNS,
+        WINDOW_LINES,
         settingsProvider,
         null,
         this
@@ -37,8 +38,8 @@ fun Project.createWindow(): TtyConnector {
 
     // Create a new tool window to host the terminal
     val toolWindowManager = ToolWindowManager.getInstance(this)
-    val toolWindow = toolWindowManager.getToolWindow(id) ?: toolWindowManager.registerToolWindow(
-        id,
+    val toolWindow = toolWindowManager.getToolWindow(ID) ?: toolWindowManager.registerToolWindow(
+        ID,
         true,
         ToolWindowAnchor.BOTTOM
     )
@@ -55,7 +56,7 @@ fun Project.input(): String? {
     val input: String? = Messages.showInputDialog(
         this,
         "Define a name for the new MVP screen.",
-        "$id - New Screen",
+        "$ID - New Screen",
         ExpUiIcons.Actions.Generated
     )
     return input
