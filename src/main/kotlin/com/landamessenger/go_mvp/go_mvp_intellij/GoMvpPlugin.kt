@@ -33,6 +33,6 @@ class GoMvpPlugin : Plugin() {
         /**
          * Ask for a screen name
          */
-        CreateScreenUseCase()()
+        CreateScreenUseCase(file)()
     }
 }

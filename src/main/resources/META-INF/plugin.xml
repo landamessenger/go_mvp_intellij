@@ -5,7 +5,7 @@
 
     <!-- Public plugin name should be written in Title Case.
          Guidelines: https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-name -->
-    <name>go_mvp (For Flutter)</name>
+    <name>go_mvp (Flutter)</name>
 
     <!-- A displayed Vendor name or Organization ID displayed on the Plugins Page. -->
     <vendor email="support@landamessenger.com" url="https://www.landamessenger.com">Landa Messenger</vendor>
@@ -14,9 +14,23 @@
          Simple HTML elements (text formatting, paragraphs, and lists) can be added inside of <![CDATA[ ]]> tag.
          Guidelines: https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-description -->
     <description><![CDATA[
-    Create MVP screen quickly.<br>
-    <em>Works with go_mvp for Flutter</em>
+    <img width="20%" vspace="20" src="https://github.com/landamessenger/go_mvp_intellij/raw/master/images/sample.png">
+
+    Tool to work with <a href="https://pub.dev/packages/go_mvp">go_mvp</a> quickly. Create new screens with MVP architecture with just one click.<br>
+    <em>Only for Flutter</em>
   ]]></description>
+
+    <change-notes>
+        <![CDATA[
+<h2>1.0.0</h2>
+
+- First version. Implements the basic controls for the creation of new screens with MVP architecture. Works on the go_mvp package.
+
+<h2>0.0.1</h2>
+
+- Test version
+]]>
+    </change-notes>
 
     <!-- Product and plugin compatibility requirements.
          Read more: https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html -->

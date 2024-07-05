@@ -10,7 +10,7 @@ plugins {
 }
 
 group = "com.landamessenger.go_mvp"
-version = "1.0-SNAPSHOT"
+version = "1.0.0"
 
 repositories {
     mavenCentral()
@@ -53,9 +53,10 @@ tasks {
     patchPluginXml {
         sinceBuild.set("232")
         untilBuild.set("242.*")
+        /*
         changeNotes = """
-          Añade una opción al menú contextual de un directorio
-        """
+
+        """*/
     }
 
     signPlugin {

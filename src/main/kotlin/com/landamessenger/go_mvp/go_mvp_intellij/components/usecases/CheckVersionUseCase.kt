@@ -9,15 +9,15 @@ import com.landamessenger.go_mvp.go_mvp_intellij.components.requester.PubDevPack
 class CheckVersionUseCase : UseCase<Boolean> {
     override suspend fun invoke(): Boolean {
         val pubSpec = CheckPubSpecUseCase()() ?: return false
-        val currentVersion = pubSpec.dependencies.go_mvp.toString()
+        val currentVersion = pubSpec.dependencies.go_mvp.toString().replace("^", "")
 
-        return PubDevPackageInfoRequester("go_mvp")()?.let { dependency ->
+        return PubDevPackageInfoRequester(ID)()?.let { dependency ->
             if (currentVersion == dependency.latestVersion.version) {
                 return@let true
             }
             val result = !confirmation(
                 title = "$ID - Update Available",
-                message = "A newer version of $ID has been found (${dependency.latestVersion}). " +
+                message = "A newer version of $ID has been found (${dependency.latestVersion.version}). " +
                         "The current version is $currentVersion.\nDo you want to check the update?",
                 cancelText = "No, continue the process",
                 okText = "Check update"

@@ -36,7 +36,7 @@ fun confirmation(
 
     else -> MessageDialogBuilder
         .okCancel(
-            ID,
+            title,
             message,
         )
         .yesText(okText)
