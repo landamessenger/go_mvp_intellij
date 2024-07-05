@@ -16,7 +16,7 @@
     <description><![CDATA[
     <img width="20%" vspace="20" src="https://github.com/landamessenger/go_mvp_intellij/raw/master/images/sample.png">
 
-    Tool to work with <a href="https://pub.dev/packages/go_mvp">go_mvp</a> quickly. Create new screens with MVP architecture with just one click.<br>
+    <p>Tool to work with <a href="https://pub.dev/packages/go_mvp">go_mvp</a> quickly. Create new screens with MVP architecture with just one click.</p><br>
     <em>Only for Flutter</em>
   ]]></description>
 
@@ -24,11 +24,11 @@
         <![CDATA[
 <h2>1.0.0</h2>
 
-- First version. Implements the basic controls for the creation of new screens with MVP architecture. Works on the go_mvp package.
+<p>- First version. Implements the basic controls for the creation of new screens with MVP architecture. Works on the <a href="https://pub.dev/packages/go_mvp">go_mvp</a> package.</p>
 
 <h2>0.0.1</h2>
 
-- Test version
+<p>- Test version</p>
 ]]>
     </change-notes>
 
