@@ -1,5 +1,7 @@
 package com.landamessenger.go_mvp.go_mvp_intellij.extensions
 
+import com.intellij.icons.AllIcons
+import com.intellij.icons.ExpUiIcons
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.ui.Messages
 import com.intellij.openapi.wm.ToolWindowAnchor
@@ -52,9 +54,9 @@ fun Project.createWindow(): TtyConnector {
 fun Project.input(): String? {
     val input: String? = Messages.showInputDialog(
         this,
-        "Define a name for the new MVP screen",
-        "New Screen",
-        Messages.getInformationIcon()
+        "Define a name for the new MVP screen.",
+        "$id - New Screen",
+        ExpUiIcons.Actions.Generated
     )
     return input
 }

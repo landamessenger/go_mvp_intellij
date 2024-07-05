@@ -1,41 +1,73 @@
 package com.landamessenger.go_mvp.go_mvp_intellij
 
+import com.intellij.icons.AllIcons
 import com.intellij.ide.BrowserUtil
+import com.landamessenger.go_mvp.go_mvp_intellij.components.*
 import com.landamessenger.go_mvp.go_mvp_intellij.components.executor.ExecutorImpl
 import com.landamessenger.go_mvp.go_mvp_intellij.components.files.FilesManagerImpl
-import com.landamessenger.go_mvp.go_mvp_intellij.components.id
-import com.landamessenger.go_mvp.go_mvp_intellij.components.installationUrl
 import com.landamessenger.go_mvp.go_mvp_intellij.components.plugin.Plugin
-import com.landamessenger.go_mvp.go_mvp_intellij.components.pubSpecFile
-import com.landamessenger.go_mvp.go_mvp_intellij.extensions.dependencyInstalled
-import com.landamessenger.go_mvp.go_mvp_intellij.extensions.input
-import com.landamessenger.go_mvp.go_mvp_intellij.extensions.pathForWorking
-
+import com.landamessenger.go_mvp.go_mvp_intellij.extensions.*
 
 class GoMvpPlugin : Plugin() {
     override val executor = ExecutorImpl()
     override val filesManager = FilesManagerImpl()
 
     override fun main() {
-        val input = project.input() ?: return
-
         /**
-         * If go_mvp not installed, alert and open documentation
+         * If go_mvp not installed, alert and offer opening the documentation
          */
         val projectFileContent = filesManager.readFile(pubSpecFile)
         if (!projectFileContent.dependencyInstalled()) {
-            errorMessage("$id not installed on project.")
-            BrowserUtil.open(installationUrl)
+            val result = confirmation(
+                title = "$id - Dependency Not Installed",
+                message = "Install the library and try again.",
+                okText = okText,
+                cancelText = openDocumentationText,
+                icon = AllIcons.General.Error
+            )
+            if (!result) {
+                BrowserUtil.open(installationUrl)
+            }
             return
         }
 
+        /**
+         * Wrong configuration, alert and offer opening the documentation
+         */
         val pubSpec = filesManager.parseYaml(pubSpecFile)
-        if (pubSpec == null) {
-            errorMessage("Error parsing $pubSpecFile")
+        if (!pubSpec.correct()) {
+            val result = confirmation(
+                title = "$id - Wrong Configuration",
+                message = "Error parsing $pubSpecFile. Check the current configuration.",
+                okText = okText,
+                cancelText = openDocumentationText,
+                icon = AllIcons.General.ErrorDialog
+            )
+            if (!result) {
+                BrowserUtil.open(installationUrl)
+            }
             return
         }
 
-        val actingPath = pubSpec.pathForWorking()
+        val actingPath = pubSpec?.pathForWorking() ?: return
+
+        val projectPath = file.projectPath(pubSpec.go_mvp.baseProjectFolder)
+        if (!projectPath.endsWith(actingPath)) {
+            val continueAction = confirmation(
+                title = "$id - Confirm New Screen Creation",
+                message = "The directory in which you want to create the new MVP screen " +
+                        "(${projectPath}) does not match the one defined in the configuration of go_mvp in the pubspec.yaml" +
+                        " ($actingPath). Do you want to continue?",
+                okText = continueText,
+                cancelText = cancelText,
+                icon = AllIcons.General.Warning
+            )
+            if (!continueAction) {
+                return
+            }
+        }
+
+        val input = project.input() ?: return
 
         executor.execute(
             listOf(

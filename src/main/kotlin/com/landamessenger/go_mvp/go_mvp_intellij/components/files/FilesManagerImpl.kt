@@ -1,8 +1,12 @@
 package com.landamessenger.go_mvp.go_mvp_intellij.components.files
 
+import com.fasterxml.jackson.databind.DeserializationFeature
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.dataformat.yaml.YAMLFactory
 import com.intellij.openapi.project.Project
+import com.intellij.openapi.ui.Messages
+import com.landamessenger.go_mvp.go_mvp_intellij.components.id
 import com.landamessenger.go_mvp.go_mvp_intellij.components.models.PubSpec
-import org.yaml.snakeyaml.Yaml
 import java.io.File
 
 class FilesManagerImpl : FilesManager {
@@ -25,12 +29,15 @@ class FilesManagerImpl : FilesManager {
 
     override fun parseYaml(path: String): PubSpec? {
         return kotlin.runCatching {
-            val file = File("${project.basePath}/$path")
-            if (!file.exists()) {
-                return null
-            }
-            val yaml = Yaml()
-            return yaml.loadAs(file.inputStream().reader(), PubSpec::class.java)
+            val mapper = ObjectMapper(YAMLFactory())
+            mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
+            return mapper.readValue(File("${project.basePath}/$path"), PubSpec::class.java)
+        }.onFailure { e ->
+            Messages.showMessageDialog(
+                e.message,
+                id,
+                Messages.getErrorIcon()
+            )
         }.getOrNull()
     }
 }
