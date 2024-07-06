@@ -22,6 +22,10 @@
 
     <change-notes>
         <![CDATA[
+<h2>1.1.0</h2>
+
+<p>- Added Windows support.
+
 <h2>1.0.0</h2>
 
 <p>- First version. Implements the basic controls for the creation of new screens with MVP architecture. Works on the <a href="https://pub.dev/packages/go_mvp">go_mvp</a> package.</p>
