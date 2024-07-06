@@ -1,7 +1,6 @@
 package com.landamessenger.go_mvp.go_mvp_intellij.components.usecases
 
 import com.landamessenger.go_mvp.go_mvp_intellij.components.executor.ExecutorImpl
-import com.landamessenger.go_mvp.go_mvp_intellij.components.messages.infoMessage
 import kotlinx.coroutines.delay
 
 class ExecuteCommandUseCase(private val command: String) : ExecutorUseCase<String> {
@@ -21,7 +20,7 @@ class ExecuteCommandUseCase(private val command: String) : ExecutorUseCase<Strin
             .split("\n${outputLimits.start}").last()
             .split("\n${outputLimits.end}").first()
 
-        infoMessage(message = output)
-        return output
+        // infoMessage(message = output)
+        return output.trim()
     }
 }

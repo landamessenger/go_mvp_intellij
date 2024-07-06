@@ -10,3 +10,5 @@ const val INSTALLATION_URL = "https://github.com/landamessenger/go_mvp/wiki/Inst
 const val CHANGELOG_URL = "https://pub.dev/packages/go_mvp/changelog"
 const val WINDOW_COLUMNS = 80
 const val WINDOW_LINES = 80
+const val WINDOWS_SEPARATOR = "\\"
+const val WINDOWS_USER_PROFILE = "%USERPROFILE%"
