@@ -28,10 +28,10 @@ abstract class Plugin : AnAction() {
                 file = event.file() ?: return@launch
                 project = event.project() ?: return@launch
 
-                val ttyConnector = project.createWindow()
+                val terminalComponents = project.createWindow()
 
                 filesManager.setup(project)
-                executor.setup(project, ttyConnector)
+                executor.setup(project, terminalComponents)
 
                 ui()
             }

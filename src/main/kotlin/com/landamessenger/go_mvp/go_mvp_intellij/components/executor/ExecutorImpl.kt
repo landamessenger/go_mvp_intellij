@@ -1,18 +1,16 @@
 package com.landamessenger.go_mvp.go_mvp_intellij.components.executor
 
 import com.intellij.openapi.project.Project
-import com.jediterm.terminal.TtyConnector
-import com.landamessenger.go_mvp.go_mvp_intellij.extensions.execute
+import com.landamessenger.go_mvp.go_mvp_intellij.components.models.TerminalComponents
+import com.landamessenger.go_mvp.go_mvp_intellij.extensions.executeCommand
 
 object ExecutorImpl : Executor {
     override lateinit var project: Project
-    override lateinit var connector: TtyConnector
-    override fun setup(project: Project, connector: TtyConnector) {
+    override lateinit var terminalComponents: TerminalComponents
+    override fun setup(project: Project, terminalComponents: TerminalComponents) {
         this.project = project
-        this.connector = connector
+        this.terminalComponents = terminalComponents
     }
 
-    override fun execute(commands: List<String>) {
-        connector.execute(commands)
-    }
+    override suspend fun execute(command: String) = terminalComponents.connector.executeCommand(command)
 }
