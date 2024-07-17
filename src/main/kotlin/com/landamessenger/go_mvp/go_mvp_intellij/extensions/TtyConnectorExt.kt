@@ -2,6 +2,7 @@ package com.landamessenger.go_mvp.go_mvp_intellij.extensions
 
 import com.intellij.openapi.util.SystemInfo
 import com.jediterm.terminal.TtyConnector
+import com.landamessenger.go_mvp.go_mvp_intellij.components.COMMAND_DELAY
 import com.landamessenger.go_mvp.go_mvp_intellij.components.models.OutputLimits
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
@@ -20,7 +21,7 @@ suspend fun TtyConnector.executeCommand(command: String): OutputLimits = corouti
         end = "${id}_end".sha256(),
     )
     launch {
-        delay(1000)
+        delay(COMMAND_DELAY)
         if (SystemInfo.isWindows) {
             write("echo ${outputLimits.start} && $command && echo ${outputLimits.end}\r")
         } else {

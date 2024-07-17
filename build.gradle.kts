@@ -10,7 +10,7 @@ plugins {
 }
 
 group = "com.landamessenger.go_mvp"
-version = "1.1.0"
+version = "1.1.1"
 
 repositories {
     mavenCentral()

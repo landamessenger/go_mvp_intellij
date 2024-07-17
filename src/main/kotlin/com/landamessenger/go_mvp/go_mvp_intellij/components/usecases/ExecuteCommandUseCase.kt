@@ -1,5 +1,6 @@
 package com.landamessenger.go_mvp.go_mvp_intellij.components.usecases
 
+import com.landamessenger.go_mvp.go_mvp_intellij.components.COMMAND_DELAY
 import com.landamessenger.go_mvp.go_mvp_intellij.components.executor.ExecutorImpl
 import kotlinx.coroutines.delay
 
@@ -10,7 +11,7 @@ class ExecuteCommandUseCase(private val command: String) : ExecutorUseCase<Strin
         val outputLimits = executor.execute(command)
 
         while (true) {
-            delay(1000)
+            delay(COMMAND_DELAY)
             if (executor.terminalComponents.terminal.text.contains("\n${outputLimits.end}")) {
                 break
             }
